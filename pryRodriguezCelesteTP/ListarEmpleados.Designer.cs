@@ -110,6 +110,7 @@
             this.btnCiudad.TabIndex = 0;
             this.btnCiudad.Text = "Listar por Ciudad";
             this.btnCiudad.UseVisualStyleBackColor = true;
+            this.btnCiudad.Click += new System.EventHandler(this.btnCiudad_Click);
             // 
             // label1
             // 

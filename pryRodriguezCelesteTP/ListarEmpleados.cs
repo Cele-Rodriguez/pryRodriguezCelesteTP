@@ -18,7 +18,14 @@ namespace pryRodriguezCelesteTP
 
         }
 
-        
+        private void ListarEmpleados_Load(object sender, EventArgs e)
+        {
+            clsAccesoClases objBaseDatos = new clsAccesoClases();
+
+            objBaseDatos.ConectarBD();
+
+            lblEstadoConexion.Text = objBaseDatos.estadoConexion;
+        }
         private void btnApellido_Click(object sender, EventArgs e)
         {
           
@@ -31,13 +38,11 @@ namespace pryRodriguezCelesteTP
 
         }
 
-        private void ListarEmpleados_Load(object sender, EventArgs e)
+        
+
+        private void btnCiudad_Click(object sender, EventArgs e)
         {
-            clsAccesoClases objBaseDatos = new clsAccesoClases();
 
-            objBaseDatos.ConectarBD();
-
-            lblEstadoConexion.Text = objBaseDatos.estadoConexion;
         }
     }
 }

@@ -40,6 +40,40 @@ namespace pryRodriguezCelesteTP
                     estadoConexion = "Error:" + ex.Message + "\nRuta: " + System.IO.Path.GetFullPath("../../BaseDatos/EMPLEADO.accdb");
                 }
             }
+
+            public void TraerDatosDataSet(DataGridView grilla)
+            {
+                try
+                {
+                    ConectarBD();
+                    comandoBD = new OleDbCommand();
+                    comandoBD.Connection = conexionBD; //vinculo comando con conexion 
+                    comandoBD.CommandType = System.Data.CommandType.TableDirect; // el tipo de accion (traer tabla)
+                    comandoBD.CommandText = "DATOS PERSONALES"; // nombre de la tabla que ejecuta la accion 
+
+                    AdaptadorDS = new OleDbDataAdapter(comandoBD);
+                    AdaptadorDS.Fill(objDataSet);
+
+                    if (objDataSet.Tables["DATOS PERSONALES"].Rows.Count > 0)
+                    {
+                        grilla.Columns.Add("CODIGO", "CODIGO");
+                        grilla.Columns.Add("Nombre", "Nombre");
+                        grilla.Columns.Add("Apellido", "Apellido");
+                        foreach (DataRow fila in objDataSet.Tables[0].Rows)
+                        {
+
+                        }
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Errores = ex.Message;
+
+                }
+            }
         }
     
 }
