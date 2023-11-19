@@ -10,14 +10,16 @@ using System.Windows.Forms;
 
 namespace pryRodriguezCelesteTP
 {
-    public partial class ListarEmpleados : Form
+    public partial class frmListarEmpleados : Form
     {
-        public ListarEmpleados()
+        public frmListarEmpleados()
         {
             InitializeComponent();
 
         }
 
+        clsAccesoClases objAccesoBD = new clsAccesoClases();
+  
         private void ListarEmpleados_Load(object sender, EventArgs e)
         {
             clsAccesoClases objBaseDatos = new clsAccesoClases();
@@ -28,20 +30,15 @@ namespace pryRodriguezCelesteTP
         }
         private void btnApellido_Click(object sender, EventArgs e)
         {
-          
-           
+
+            objAccesoBD.FiltrarApellido(dgvMostrar, txtApellido.Text);
 
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         
 
         private void btnCiudad_Click(object sender, EventArgs e)
         {
+            objAccesoBD.FiltrarPorCiudad(dgvMostrar, txtCiudad.Text);
 
         }
     }

@@ -25,8 +25,15 @@ namespace pryRodriguezCelesteTP
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
-        {
+        {   DateTime dateTime = DateTime.Now;
+            string dateString = dateTime.ToString("G");
+            lblFechaHora.Text = dateString;  
+        }
 
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmListarEmpleados frmListarEmpleados = new frmListarEmpleados();
+            frmListarEmpleados .ShowDialog ();
         }
     }
 }
