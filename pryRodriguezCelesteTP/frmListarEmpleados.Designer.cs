@@ -63,7 +63,6 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(100, 20);
             this.txtApellido.TabIndex = 4;
-//            this.txtApellido.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 

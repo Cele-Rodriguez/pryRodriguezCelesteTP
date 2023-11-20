@@ -41,39 +41,73 @@ namespace pryRodriguezCelesteTP
             }
         }
 
+        public void TraerDatos(DataGridView grilla)
+        {
+            comandoBD = new OleDbCommand();
+            //lectorBD = new OleDbDataReader();
+            try
+            {
+                comandoBD.Connection = conexionBD; //vinculo comando con conexion 
+                comandoBD.CommandType = System.Data.CommandType.TableDirect; // el tipo de accion (traer tabla)
+                comandoBD.CommandText = "APELLIDO"; // nombre de la tabla que ejecuta la accion 
+
+                lectorBD = comandoBD.ExecuteReader(); //extraer tabla socios y meter dentro del lectorBD
+
+                while (lectorBD.Read())
+                {
+                    grilla.Rows.Add(lectorBD[1], lectorBD[2], lectorBD[7]);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Errores = ex.Message;
+            }
+        }
+
         public void TraerDatosDataSet(DataGridView grilla)
         {
             try
             {
-                ConectarBD();
+                ConectarBD();  // Abre la conexión
+
                 comandoBD = new OleDbCommand();
-                comandoBD.Connection = conexionBD; //vinculo comando con conexion 
-                comandoBD.CommandType = System.Data.CommandType.TableDirect; // el tipo de accion (traer tabla)
-                comandoBD.CommandText = "DATOS PERSONALES"; // nombre de la tabla que ejecuta la accion 
+                comandoBD.Connection = conexionBD; // Vincula el comando con la conexión 
+                comandoBD.CommandType = CommandType.Text; // Establece el tipo de comando (consulta SQL)
+
+                // Define la consulta SQL para seleccionar todos los datos de la tabla "DATOS PERSONALES"
+                comandoBD.CommandText = "SELECT * FROM [DPERSONALES]";
 
                 AdaptadorDS = new OleDbDataAdapter(comandoBD);
-                AdaptadorDS.Fill(objDataSet);
+                AdaptadorDS.Fill(objDataSet);  // Llena el conjunto de datos con los resultados de la consulta
 
-                if (objDataSet.Tables["DATOS PERSONALES"].Rows.Count > 0)
+                if (objDataSet.Tables["DPERSONALES"].Rows.Count > 0)
                 {
+                    // Agrega las columnas a la DataGridView
                     grilla.Columns.Add("CODIGO", "CODIGO");
                     grilla.Columns.Add("Nombre", "Nombre");
                     grilla.Columns.Add("Apellido", "Apellido");
-                    foreach (DataRow fila in objDataSet.Tables[0].Rows)
+
+                    // Agrega las filas a la DataGridView utilizando el conjunto de datos
+                    foreach (DataRow fila in objDataSet.Tables["DPERSONALES"].Rows)
                     {
-
+                        grilla.Rows.Add(fila["CODIGO"], fila["Nombre"], fila["Apellido"]);
                     }
-
-
                 }
-
             }
             catch (Exception ex)
             {
                 Errores = ex.Message;
-
+            }
+            finally
+            {
+                if (conexionBD.State == ConnectionState.Open)
+                {
+                    conexionBD.Close();  // Cierra la conexión si está abierta
+                }
             }
         }
+        
 
         public void FiltrarPorCiudad(DataGridView dataGridView, string idIngresado)
         {
@@ -81,6 +115,8 @@ namespace pryRodriguezCelesteTP
             {
                 try
                 {
+                    ConectarBD();
+
                     // Define la consulta parametrizada
                     string consulta = "SELECT * FROM DPERSONALES WHERE CIUDAD = @Id";
 
@@ -123,6 +159,8 @@ namespace pryRodriguezCelesteTP
             {
                 try
                 {
+                    ConectarBD();
+
                     // Define la consulta parametrizada
                     string consulta = "SELECT * FROM DATOS PERSONALES WHERE APELLIDO = @Id";
 
@@ -138,12 +176,12 @@ namespace pryRodriguezCelesteTP
                             DataSet dataSet = new DataSet();
 
                             // Llena el conjunto de datos con los resultados de la consulta
-                            adaptador.Fill(dataSet, "DATOS PERSONALES");
+                            adaptador.Fill(dataSet, "DPERSONALES");
 
 
 
                             // Asigna el conjunto de datos a la DataGridView
-                            dataGridView.DataSource = dataSet.Tables["DATOS PERSONALES"];
+                            dataGridView.DataSource = dataSet.Tables["DPERSONALES"];
                         }
                     }
 
